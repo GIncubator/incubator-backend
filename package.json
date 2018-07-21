@@ -1,0 +1,44 @@
+{
+  "name": "boilterplate-webpack-eslint-prettier-editorconfig",
+  "version": "1.0.0",
+  "description": "Minimal boilerplate to get start project with Webpack (Node), Eslint, Prettier, Editorconfig",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/bundle.js",
+    "dev": "npx webpack --silent true --watch --config webpack.config.js",
+    "build": "npx webpack --config webpack.config.js"
+  },
+  "keywords": [
+    "webpack",
+    "eslint",
+    "prettier",
+    "editorconfig",
+    "babel",
+    "babel-preset-env"
+  ],
+  "author": "Subrata Mal <06.subrata@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "ejs": "^2.6.1",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "morgan": "~1.9.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.1.0",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-prettier": "^2.6.2",
+    "nodemon-webpack-plugin": "^4.0.3",
+    "prettier": "^1.13.7",
+    "webpack": "^4.16.0",
+    "webpack-cli": "^3.0.8",
+    "webpack-node-externals": "^1.7.2"
+  }
+}
