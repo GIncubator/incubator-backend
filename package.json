@@ -4,7 +4,7 @@
   "description": "Minimal boilerplate to get start project with Webpack (Node), Eslint, Prettier, Editorconfig",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/bundle.js",
+    "start": "node -r dotenv/config dist/bundle.js",
     "dev": "npx webpack --silent true --watch --config webpack.config.js",
     "build": "npx webpack --config webpack.config.js"
   },
@@ -21,6 +21,7 @@
   "dependencies": {
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
+    "dotenv": "^6.0.0",
     "ejs": "^2.6.1",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
