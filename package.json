@@ -24,14 +24,16 @@
     "dotenv": "^6.0.0",
     "ejs": "^2.6.1",
     "express": "~4.16.0",
+    "find-or-create": "^1.1.0",
     "http-errors": "~1.6.2",
+    "mongoose": "^5.2.4",
     "morgan": "~1.9.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
-    "eslint": "^5.1.0",
+    "eslint": "^5.2.0",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
