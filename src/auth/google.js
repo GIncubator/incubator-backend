@@ -19,19 +19,19 @@ const googleStrategy = new GoogleStrategy(
     const userId = profile.id
 
     User.findOne({ email }, (error, user) => {
-      if (!user) {
-        const nUser = new User()
-        nUser.name = name
-        nUser.email = email
-        nUser.userId = userId
-        nUser.save((err) => {
-          if (!err) {
-            return done(null, nUser.toJSON())
-          }
-          return done(null, user.toJSON())
-        })
+      if (user) {
+        return done(null, user.toJSON())
       }
-      return done(null, user.toJSON())
+      const nUser = new User()
+      nUser.name = name
+      nUser.email = email
+      nUser.userId = userId
+      nUser.save((err) => {
+        if (!err) {
+          return done(null, nUser.toJSON())
+        }
+        return done(null, user.toJSON())
+      })
     })
   },
 )

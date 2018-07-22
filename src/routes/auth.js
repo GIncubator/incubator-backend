@@ -17,6 +17,7 @@ router.get(
   passportGoogle.authenticate('google', { session: false, scope: ['openid', 'profile', 'email'] }),
   (req, res) => {
     const token = jwtSign(req.user)
+    delete req.user
     res.json({ token })
   },
 )
