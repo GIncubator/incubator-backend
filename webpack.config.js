@@ -1,6 +1,7 @@
 const path = require('path')
 const NodemonPlugin = require('nodemon-webpack-plugin')
 const nodeExternals = require('webpack-node-externals')
+const Dotenv = require('dotenv-webpack')
 
 const entry = path.resolve('./src/bin/www')
 
@@ -43,7 +44,9 @@ module.exports = {
       ignore: ['*.js.map'],
       script: './dist/bundle.js',
     }),
+    new Dotenv(),
   ],
+
   resolve: {
     alias: {
       routes: './src/routes',

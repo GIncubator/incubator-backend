@@ -2,11 +2,11 @@
  * Module dependencies.
  */
 
-require('dotenv').config()
-const debug = require('debug')('server:server')
-const http = require('http')
-const app = require('../../app')
+import debug from 'debug'
+import http from 'http'
+import app from '../../app'
 
+debug('server:server')
 /**
  * Get port from environment and store in Express.
  */
