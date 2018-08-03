@@ -12,8 +12,7 @@ const UserSchema = new mongoose.Schema({
     required: true
   },
   password: {
-    type: String,
-    required: true
+    type: String
   },
   role: {
     type: String,
@@ -28,7 +27,7 @@ const UserSchema = new mongoose.Schema({
   updated_at: { type: Date, default: Date.now },
 })
 
-UserSchema.pre('save', (next) => {  
+UserSchema.pre('save', function (next) {  
   const user = this,
         SALT_FACTOR = 5
   if (!user.isModified('password')) return next()
@@ -44,7 +43,7 @@ UserSchema.pre('save', (next) => {
   })
 })
 
-UserSchema.methods.comparePassword = (givenPassword, cb) => {  
+UserSchema.methods.comparePassword = function (givenPassword, cb) {  
   bcrypt.compare(givenPassword, this.password, (err, isMatch) => {
     if (err) { return cb(err) }
     cb(null, isMatch)

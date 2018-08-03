@@ -5,6 +5,7 @@ import {
   sendUnAuthorizedError,
 } from '../utils'
 
+
 const isAuthenticated = (req, res, next) => {
   const token = jwtExtractor(req)
   // if no token found in request
@@ -47,8 +48,7 @@ const canAccess = (role) => (req, res, next) => {
   })
 }
 
-
 export {
   isAuthenticated,
-  canAccess,
+  canAccess
 }

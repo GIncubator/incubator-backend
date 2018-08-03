@@ -34,10 +34,15 @@ const sendUnAuthorizedError = res => res.status(403).json({
   message: 'Unauthorized access',
 })
 
+const simplify = (user) => {
+  user = user.toJSON()
+  return user
+}
 export {
   jwtSign,
   jwtVerify,
   jwtExtractor,
   sendUnAuthenticationError,
   sendUnAuthorizedError,
+  simplify
 }

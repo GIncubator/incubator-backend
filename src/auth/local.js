@@ -1,10 +1,9 @@
-import passport from 'passport'
 import JwtStrategy from 'passport-jwt'
 import LocalStrategy from 'passport-local'
 
 import User from '../models/user'
 import { JWT_CONFIG } from '../config'
-import { jwtExtractor } from '../utils';
+import { jwtExtractor, simplify } from '../utils'
 
 const {
   ExtractJwt,
@@ -16,9 +15,7 @@ const localOptions = {
 }
 
 const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
-  User.findOne({
-    email: email
-  }, (err, user) => {
+  User.findOne({ email }, (err, user) => {
     if (err) {
       return done(err)
     }
@@ -28,18 +25,24 @@ const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
       })
     }
 
-    user.comparePassword(password,  (err, isMatch) => {
-      if (err) {
-        return done(err)
-      }
-      if (!isMatch) {
-        return done(null, false, {
-          error: "Your login details could not be verified. Please try again."
-        })
-      }
-
-      return done(null, user)
-    })
+    if (user && !user.password) {
+      user.password = password
+      user.markModified(password)
+      user.save(() => done(null, simplify(user)))
+    } else {
+      user.comparePassword(password,  (err, isMatch) => {
+        if (err) {
+          return done(err)
+        }
+        if (!isMatch) {
+          return done(null, false, {
+            error: "Your login details could not be verified. Please try again."
+          })
+        }
+  
+        return done(null, simplify(user))
+      })
+    }
   })
 })
 
@@ -51,16 +54,15 @@ const jwtOptions = {
 const jwtLogin = new Strategy(jwtOptions, (payload, done) => {  
   User.findOne({email: payload.email} , (err, user) => {
     if (err) { return done(err, false) }
-
     if (user) {
-      done(null, user)
+      done(null, simplify(user))
     } else {
       done(null, false)
     }
   })
 })
 
-passport.use(jwtLogin)
-passport.use(localLogin)
-
-export default passport
+export {
+  jwtLogin,
+  localLogin
+}

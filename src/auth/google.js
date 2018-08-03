@@ -1,6 +1,7 @@
 import passport from 'passport'
 import passportGoogleOauth from 'passport-google-oauth'
 import User from '../models/User'
+import { simplify } from '../utils'
 
 const GoogleStrategy = passportGoogleOauth.OAuth2Strategy
 
@@ -20,18 +21,17 @@ const googleStrategy = new GoogleStrategy(
 
     User.findOne({ email }, (error, user) => {
       if (user) {
-        return done(null, user.toJSON())
+        user.social.google.userId = userId
+        user.save(() => done(null, simplify(user)))
+      } else {
+        const nUser = new User()
+        nUser.name = name
+        nUser.email = email
+        nUser.social.google.userId = userId
+        nUser.save(() => {
+          done(null, simplify(nUser))
+        })
       }
-      const nUser = new User()
-      nUser.name = name
-      nUser.email = email
-      nUser.social.google.userId = userId
-      nUser.save((err) => {
-        if (!err) {
-          return done(null, nUser.toJSON())
-        }
-        return done(null, user.toJSON())
-      })
     })
   },
 )
