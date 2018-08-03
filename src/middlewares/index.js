@@ -22,16 +22,31 @@ const isAuthenticated = (req, res, next) => {
   })
 }
 
-const canAccess = role => (req, res, next) => {
-  if (!req.user) {
-    return sendUnAuthorizedError(res)
-  }
-  // @todo: change it to role
-  if (req.user.name !== role) {
-    return sendUnAuthorizedError(res)
-  }
-  next()
+const canAccess = (role) => (req, res, next) => {
+  const {
+    user: {
+      email
+    }
+  } = req
+
+  User.findOne({
+    email
+  }, (err, foundUser) => {
+    if (err) {
+      res.status(422).json({
+        error: 'No user was found.'
+      })
+      return next(err)
+    }
+    // If user is found, check role
+    if (foundUser.role == role) {
+      return next()
+    }
+    sendUnAuthorizedError(res)
+    return next('Unauthorized')
+  })
 }
+
 
 export {
   isAuthenticated,
