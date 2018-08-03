@@ -43,12 +43,12 @@ const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
 
 const jwtOptions = {  
   // Telling Passport to check authorization headers for JWT
-  jwtFromRequest: ExtractJwt.fromAuthHeader(),
+  jwtFromRequest: ExtractJwt.fromBodyField('token'),
   // Telling Passport where to find the secret
   secretOrKey: JWT_CONFIG.APPLICATION_JWT_SIGNING_KEY
 }
 
-const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {  
+const jwtLogin = new Strategy(jwtOptions, (payload, done) => {  
   User.findOne({email: payload.email} , (err, user) => {
     if (err) { return done(err, false) }
 

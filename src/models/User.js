@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
-import bcrypt from 'bcrypt-nodejs';
+import bcrypt from 'bcrypt-nodejs'
 
-import { ROLES } from '../config';
+import { ROLES } from '../config'
 
 const UserSchema = new mongoose.Schema({
   name: String,
@@ -30,25 +30,34 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.pre('save', (next) => {  
   const user = this,
-        SALT_FACTOR = 5;
+        SALT_FACTOR = 5
   if (!user.isModified('password')) return next()
 
   bcrypt.genSalt(SALT_FACTOR, (err, salt) => {
     if (err) return next(err)
 
     bcrypt.hash(user.password, salt, null, (err, hash)  => {
-      if (err) return next(err);
-      user.password = hash;
-      next();
+      if (err) return next(err)
+      user.password = hash
+      next()
     })
   })
 })
 
 UserSchema.methods.comparePassword = (givenPassword, cb) => {  
   bcrypt.compare(givenPassword, this.password, (err, isMatch) => {
-    if (err) { return cb(err); }
-    cb(null, isMatch);
-  });
+    if (err) { return cb(err) }
+    cb(null, isMatch)
+  })
 }
 
-export default mongoose.model('User', UserSchema)
+
+let User
+
+if (mongoose.models.User) {
+  User = mongoose.model('User')
+} else {
+  User = mongoose.model('User', UserSchema)
+}
+
+export default User

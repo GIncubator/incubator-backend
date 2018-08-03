@@ -19,6 +19,7 @@
   "author": "Subrata Mal <06.subrata@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "dotenv-webpack": "^1.5.7",
