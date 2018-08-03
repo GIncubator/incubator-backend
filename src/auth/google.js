@@ -25,7 +25,7 @@ const googleStrategy = new GoogleStrategy(
       const nUser = new User()
       nUser.name = name
       nUser.email = email
-      nUser.userId = userId
+      nUser.social.google.userId = userId
       nUser.save((err) => {
         if (!err) {
           return done(null, nUser.toJSON())

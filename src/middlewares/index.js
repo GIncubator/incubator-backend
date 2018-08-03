@@ -16,6 +16,7 @@ const isAuthenticated = (req, res, next) => {
     if (err) {
       return sendUnAuthenticationError(res)
     }
+    // important
     req.user = decoded
     next()
   })

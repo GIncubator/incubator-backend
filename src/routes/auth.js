@@ -1,5 +1,6 @@
 import express from 'express'
 import passportGoogle from '../auth/google'
+import passportLocal from '../auth/local';
 import { jwtSign } from '../utils'
 
 const router = express.Router()
@@ -21,5 +22,7 @@ router.get(
     res.json({ token })
   },
 )
+
+
 
 export default router
