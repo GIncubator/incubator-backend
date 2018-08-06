@@ -14,7 +14,7 @@ const StartupInfoSchema = new mongoose.Schema({
   name: String,
   founderName: String,
   coFounders: [CofounderInfoSchema],
-  totalMemberCount: Number,
+  totalMemberCount: String,
   typeOfIncorporation: String,
   legalEntityName: String,
   legalEntityMembers: [legalEntitySchema],
@@ -35,7 +35,6 @@ const StartupInfoSchema = new mongoose.Schema({
   bankIFSC: String,
   facilitiesNeededFromGUSEC: String,
   gusecPremisesAccess: String
-
 })
 
 let StartupInfo

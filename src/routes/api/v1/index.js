@@ -1,5 +1,6 @@
 import express from 'express'
 import { isAuthenticated, canAccess } from '../../../middlewares'
+import startup from './startup'
 
 const router = express.Router()
 
@@ -16,11 +17,7 @@ router.get('/protected', isAuthenticated, (req, res) => {
   })
 })
 
-router.get('/startupinfo', isAuthenticated, canAccess('Incubator'), (req, res) => {
-  res.json({
-    data: req.user,
-    message: 'Very protected important data for sandeep',
-  })
-})
+router.post('/startupinfo', isAuthenticated, canAccess('Incubator'), startup.post)
+router.get('/startupinfo', isAuthenticated, canAccess('Incubator'), startup.get)
 
 export default router
