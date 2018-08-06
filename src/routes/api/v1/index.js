@@ -17,7 +17,7 @@ router.get('/protected', isAuthenticated, (req, res) => {
   })
 })
 
-router.post('/startupinfo', isAuthenticated, canAccess('Incubator'), startup.post)
+router.post('/startupinfo', startup.post)
 router.get('/startupinfo', isAuthenticated, canAccess('Incubator'), startup.get)
 
 export default router
