@@ -25,13 +25,11 @@ const jwtExtractor = (req) => {
 }
 
 const sendUnAuthenticationError = res => res.status(401).json({
-  error: 'true',
-  message: 'Unauthenticated access to resource',
+  error: 'Unauthenticated access to resource',
 })
 
 const sendUnAuthorizedError = res => res.status(403).json({
-  error: 'true',
-  message: 'Unauthorized access',
+  error: 'Unauthorized access',
 })
 
 const simplify = (user) => {
