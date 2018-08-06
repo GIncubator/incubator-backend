@@ -33,7 +33,7 @@ router.get(
     scope: ['openid', 'profile', 'email']
   }),
   (req, res) => {
-    res.status(301).redirect('http://localhost:3000/?token=' + jwtSign(req.user))
+    res.status(301).redirect('http://localhost:3000/#/signin?token=' + jwtSign(req.user))
   },
 )
 
@@ -43,19 +43,19 @@ router.post('/register', (req, res, next) => {
   const password = req.body.password
 
   if (!email) {
-    return res.status(422).send({
+    return res.status(200).send({
       error: 'You must enter an email address.'
     })
   }
 
   if (!name) {
-    return res.status(422).send({
+    return res.status(200).send({
       error: 'You must enter your full name.'
     })
   }
 
   if (!password) {
-    return res.status(422).send({
+    return res.status(200).send({
       error: 'You must enter a password.'
     })
   }
@@ -68,7 +68,7 @@ router.post('/register', (req, res, next) => {
     }
 
     if (existingUser) {
-      return res.status(422).send({
+      return res.status(200).send({
         error: 'That email address is already in use.'
       })
     }
@@ -105,7 +105,7 @@ router.post('/login', (req, res, next) => {
       let error = info || {
         error: 'Email or password is wrong.'
       }
-      return res.status(401).json(error);
+      return res.status(200).json(error);
     }
 
     req.user = user;
