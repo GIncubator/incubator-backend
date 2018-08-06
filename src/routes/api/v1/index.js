@@ -16,7 +16,7 @@ router.get('/protected', isAuthenticated, (req, res) => {
   })
 })
 
-router.get('/sandeep', isAuthenticated, canAccess('Sandeep Acharya'), (req, res) => {
+router.get('/startupinfo', isAuthenticated, canAccess('Incubator'), (req, res) => {
   res.json({
     data: req.user,
     message: 'Very protected important data for sandeep',

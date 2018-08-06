@@ -40,7 +40,7 @@ const canAccess = (role) => (req, res, next) => {
       return next(err)
     }
     // If user is found, check role
-    if (foundUser.role == role) {
+    if (foundUser.role === role) {
       return next()
     }
     sendUnAuthorizedError(res)
