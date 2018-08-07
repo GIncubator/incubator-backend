@@ -1,7 +1,7 @@
 {
-  "name": "boilterplate-webpack-eslint-prettier-editorconfig",
+  "name": "gusec-incubator-backend",
   "version": "1.0.0",
-  "description": "Minimal boilerplate to get start project with Webpack (Node), Eslint, Prettier, Editorconfig",
+  "description": "Gusec Incubator Backend",
   "main": "index.js",
   "scripts": {
     "start": "node -r dotenv/config dist/bundle.js",
@@ -19,6 +19,8 @@
   "author": "Subrata Mal <06.subrata@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
+    "await-to-js": "^2.0.1",
     "bcrypt-nodejs": "0.0.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",

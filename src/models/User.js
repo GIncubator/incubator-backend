@@ -1,62 +1,48 @@
-import mongoose from 'mongoose'
-import bcrypt from 'bcrypt-nodejs'
+// import restHelper from 'libs/rest-helper';
+// import modalObjectValidator from 'libs/validate-modal-obj';
+// import { v4 as uuidv4 } from 'uuid';
+// import sendEmail from 'libs/send-email'
+import to from 'await-to-js'
+import UserSchema from './UserSchema'
 
-import { ROLES } from '../config'
+/* eslint class-methods-use-this: 0 */
+class User {
+  constructor() {}
 
-const UserSchema = new mongoose.Schema({
-  name: String,
-  email: {
-    type: String,
-    lowercase: true,
-    unique: true,
-    required: true
-  },
-  password: {
-    type: String
-  },
-  role: {
-    type: String,
-    enum: [ROLES.INCUBATOR, ROLES.SUPER_ADMIN],
-    default: ROLES.INCUBATOR
-  },
-  social: {
-    google: {
-      userId: String
+  async getSingleUser(id) {
+  }
+
+  async getAllUsers(queryParams) {
+    let dbData
+
+    const googleUid = queryParams.googleUid
+    let gQuery = {}
+    if (googleUid) {
+      gQuery = {
+        social: {
+          google: {
+            uid: googleUid
+          }
+        }
+      }
     }
-  },
-  updated_at: { type: Date, default: Date.now },
-})
 
-UserSchema.pre('save', function (next) {  
-  const user = this,
-        SALT_FACTOR = 5
-  if (!user.isModified('password')) return next()
+    const query = UserSchema.find(gQuery).exec()
 
-  bcrypt.genSalt(SALT_FACTOR, (err, salt) => {
-    if (err) return next(err)
+    return query
+  }
 
-    bcrypt.hash(user.password, salt, null, (err, hash)  => {
-      if (err) return next(err)
-      user.password = hash
-      next()
-    })
-  })
-})
+  async createUser(newUserObj) {
+    const user = new UserSchema(newUserObj)
+    const [err, data] = await to(user.save())
 
-UserSchema.methods.comparePassword = function (givenPassword, cb) {  
-  bcrypt.compare(givenPassword, this.password, (err, isMatch) => {
-    if (err) { return cb(err) }
-    cb(null, isMatch)
-  })
-}
-
-
-let User
-
-if (mongoose.models.User) {
-  User = mongoose.model('User')
-} else {
-  User = mongoose.model('User', UserSchema)
+    if (err) {
+      throw new Error(err)
+    }
+    return {
+      data
+    }
+  }
 }
 
 export default User
