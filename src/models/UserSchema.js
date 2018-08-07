@@ -22,9 +22,6 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  password: {
-    type: String,
-  },
   picture: {
     type: String,
   },
@@ -35,6 +32,9 @@ const UserSchema = new mongoose.Schema({
   },
   social: {
     google: {
+      uid: String,
+    },
+    password: {
       uid: String,
     },
   },

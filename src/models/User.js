@@ -16,19 +16,28 @@ class User {
     let dbData
 
     const googleUid = queryParams.googleUid
-    let gQuery = {}
+    const passwordUid = queryParams.passwordUid
+
+    let uidQuery = {}
     if (googleUid) {
-      gQuery = {
+      uidQuery = {
         social: {
           google: {
             uid: googleUid
           }
         }
       }
+    } else if(passwordUid) {
+      uidQuery = {
+        social: {
+          password: {
+            uid: passwordUid
+          }
+        }
+      }
     }
 
-    const query = UserSchema.find(gQuery).exec()
-
+    const query = UserSchema.find(uidQuery).exec()
     return query
   }
 
