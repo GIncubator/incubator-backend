@@ -46,6 +46,10 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  deleted: {
+    type: Number,
+    default: 0
+  }
 })
 
 UserSchema.pre('save', function preSave(next) {
