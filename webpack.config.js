@@ -43,6 +43,7 @@ module.exports = {
       watch: path.resolve('./dist'),
       ignore: ['*.js.map'],
       script: './dist/bundle.js',
+      nodeArgs: [process.env.NODE_ENV === 'DEBUG' ? '--inspect-brk=9222' : ''],
     }),
     new Dotenv(),
   ],

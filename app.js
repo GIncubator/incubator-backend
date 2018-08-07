@@ -6,10 +6,12 @@ import logger from 'morgan'
 import favicon from 'serve-favicon'
 import passport from 'passport'
 import mongoose from 'mongoose'
+import bodyParser from 'body-parser'
 
 import indexRouter from './src/routes'
 import authRouter from './src/routes/auth'
 import apiV1Router from './src/routes/api/v1'
+import userRouter from './src/routes/user'
 
 const app = express()
 
@@ -34,24 +36,25 @@ app.set('view engine', 'ejs')
 app.use(logger('dev'))
 
 // enable cors
-var allowCrossDomain = function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    
+const allowCrossDomain = (req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
+
   // intercept OPTIONS method
-  if ('OPTIONS' == req.method) {
+  if (req.method === 'OPTIONS') {
     res.sendStatus(200)
+  } else {
+    next()
   }
-  else {
-    next();
-  }
-};
-app.use(allowCrossDomain);
+}
+
+app.use(allowCrossDomain)
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
+app.use(bodyParser.json())
 app.use(express.static(path.resolve('static')))
 app.use(FAVICON_URL)
 app.use(passport.initialize())
@@ -60,6 +63,7 @@ app.use(passport.initialize())
 app.use('/', indexRouter)
 app.use('/auth', authRouter)
 app.use('/api/v1', apiV1Router)
+app.use('/user', userRouter)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
