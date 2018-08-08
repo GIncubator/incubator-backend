@@ -19,5 +19,6 @@ router.get('/protected', isAuthenticated, (req, res) => {
 
 router.post('/startupinfo', startup.post)
 router.get('/startupinfo', startup.get)
+router.get('/startupinfo/:id', startup.getOne)
 
 export default router

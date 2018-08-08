@@ -47,6 +47,18 @@ const startup = {
         })
       
     })
+  },
+  getOne(req, res) {
+    let id = req.params.id;
+    StartupInfo.findById(id, (err, startup) => {
+        if (err) {
+          return res.json({error: err.toString()})
+        }
+        res.json({
+          data: startup
+        })
+      
+    })
   }
 }
 
