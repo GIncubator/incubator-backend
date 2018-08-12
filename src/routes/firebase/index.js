@@ -22,10 +22,10 @@ const adminEmails = [
 ];
 
 const GUSEC_ROLE_USER = {
-  GUSEC_ROLE: 'USER'
+  GUSEC_ROLE: 'GUSEC_USER'
 }
 const GUSEC_ROLE_ADMIN = {
-  GUSEC_ROLE: 'ADMIN'
+  GUSEC_ROLE: 'GUSEC_ADMIN'
 }
 
 const getRoleClaim = (email) => adminEmails.includes(email) ? GUSEC_ROLE_ADMIN : GUSEC_ROLE_USER;
