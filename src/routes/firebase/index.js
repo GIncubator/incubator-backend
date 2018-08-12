@@ -47,7 +47,8 @@ router.post('/register', async (req, res) => {
   }
   try {
     let userRecord = await admin.auth().createUser(user);
-    let token = await admin.auth().createCustomToken(userRecord.uid, getRoleClaim(email))
+    await admin.auth().setCustomUserClaims(userRecord.uid,  getRoleClaim(email));
+    let token = await admin.auth().createCustomToken(userRecord.uid)
     return res.json({
       userRecord,
       token
@@ -64,8 +65,25 @@ router.post('/login', async (req, res) => {
   try {
     let decodedToken = await admin.auth().verifyIdToken(idToken);
     let userRecord = await admin.auth().getUser(decodedToken.uid);
-    let token = await admin.auth().createCustomToken(userRecord.uid, getRoleClaim(userRecord.email))
-    res.json({ userRecord, token });
+    let token = await admin.auth().createCustomToken(userRecord.uid)
+    res.json({
+      userRecord,
+      token
+    });
+  } catch (err) {
+    res.json({
+      error: err
+    })
+  }
+});
+
+router.get('/user/:email', async (req, res) => {
+  let email = req.params.email;
+  try {
+    let user = await admin.auth().getUserByEmail(email);
+    res.json({
+      user
+    });
   } catch (err) {
     res.json({
       error: err
