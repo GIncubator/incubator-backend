@@ -12,6 +12,8 @@ import indexRouter from './src/routes'
 import authRouter from './src/routes/auth'
 import apiV1Router from './src/routes/api/v1'
 import userRouter from './src/routes/user'
+import firebaseRouter from './src/routes/firebase'
+
 
 const app = express()
 
@@ -64,6 +66,7 @@ app.use('/', indexRouter)
 app.use('/auth', authRouter)
 app.use('/api/v1', apiV1Router)
 app.use('/user', userRouter)
+app.use('/auth/firebase', firebaseRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

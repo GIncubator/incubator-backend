@@ -27,6 +27,8 @@
     "dotenv-webpack": "^1.5.7",
     "ejs": "^2.6.1",
     "express": "~4.16.0",
+    "firebase-admin": "^6.0.0",
+    "gravatar": "^1.6.0",
     "http-errors": "~1.6.2",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.2.4",
