@@ -112,4 +112,4 @@ typings/
 .serverless
 
 dist/
-src/config/gusec-incubator-sandbox-firebase-adminsdk-93mix-e1d6b85cb0.json
+src/config/firebase-service-account.json

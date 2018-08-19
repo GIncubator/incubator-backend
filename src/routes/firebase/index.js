@@ -1,12 +1,12 @@
 import express from 'express'
 const router = express.Router()
-import * as admin from 'firebase-admin'
-import gravatar from 'gravatar';
-const serviceAccount = require('../../config/gusec-incubator-sandbox-firebase-adminsdk-93mix-e1d6b85cb0.json');
+import * as FirebaseAdmin from 'firebase-admin'
+const serviceAccount = require('../../config/firebase-service-account.json')
+const userConfigs = require('./../../../user-config.json')
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://gusec-incubator-sandbox.firebaseio.com"
+FirebaseAdmin.initializeApp({
+  credential: FirebaseAdmin.credential.cert(serviceAccount),
+  databaseURL: "https://gusec-incubator-project.firebaseio.com"
 });
 
 router.get('/', (req, res) => {
@@ -15,11 +15,7 @@ router.get('/', (req, res) => {
   });
 });
 
-
-const adminEmails = [
-  "i.am.sandeep.acharya@gmail.com",
-  "06.subrata@gmail.com"
-];
+const adminEmails = userConfigs.admins || []
 
 const GUSEC_ROLE_USER = {
   GUSEC_ROLE: 'GUSEC_USER'
@@ -30,14 +26,12 @@ const GUSEC_ROLE_ADMIN = {
 
 const getRoleClaim = (email) => adminEmails.includes(email) ? GUSEC_ROLE_ADMIN : GUSEC_ROLE_USER;
 
-
 router.post('/register', async (req, res) => {
   let email = req.body.email;
 
-  let photoURL = gravatar.url(email, {
-    protocol: 'https',
-    s: '200'
-  });
+  const [firstName, ...lastName] = req.body.name.split(' ')
+  const photoURL = `https://ui-avatars.com/api/?rounded=true&background=3f51b5&color=fff&font-size=.40&name=${firstName}+${lastName? lastName.join('') : ''}`
+  console.log(photoURL)
 
   let user = {
     email,
@@ -46,9 +40,9 @@ router.post('/register', async (req, res) => {
     displayName: req.body.name,
   }
   try {
-    let userRecord = await admin.auth().createUser(user);
-    await admin.auth().setCustomUserClaims(userRecord.uid,  getRoleClaim(email));
-    let token = await admin.auth().createCustomToken(userRecord.uid)
+    let userRecord = await FirebaseAdmin.auth().createUser(user);
+    await FirebaseAdmin.auth().setCustomUserClaims(userRecord.uid, getRoleClaim(email));
+    let token = await FirebaseAdmin.auth().createCustomToken(userRecord.uid)
     return res.json({
       userRecord,
       token
@@ -63,9 +57,9 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   let idToken = req.body.idToken;
   try {
-    let decodedToken = await admin.auth().verifyIdToken(idToken);
-    let userRecord = await admin.auth().getUser(decodedToken.uid);
-    let token = await admin.auth().createCustomToken(userRecord.uid)
+    let decodedToken = await FirebaseAdmin.auth().verifyIdToken(idToken);
+    let userRecord = await FirebaseAdmin.auth().getUser(decodedToken.uid);
+    let token = await FirebaseAdmin.auth().createCustomToken(userRecord.uid)
     res.json({
       userRecord,
       token
@@ -80,7 +74,7 @@ router.post('/login', async (req, res) => {
 router.get('/user/:email', async (req, res) => {
   let email = req.params.email;
   try {
-    let user = await admin.auth().getUserByEmail(email);
+    let user = await FirebaseAdmin.auth().getUserByEmail(email);
     res.json({
       user
     });
