@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import favicon from 'serve-favicon'
 import passport from 'passport'
-import mongoose from 'mongoose'
+// import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 
 import indexRouter from './src/routes'
@@ -17,20 +17,20 @@ import firebaseRouter from './src/routes/firebase'
 
 const app = express()
 
-const DB_URL = process.env.MONGODB_URL || 'mongodb://localhost:27017/gusec'
+// const DB_URL = process.env.MONGODB_URL || 'mongodb://localhost:27017/gusec'
 const FAVICON_URL = favicon(path.resolve('static/images/favicon.ico'))
 
 // connect to database
-mongoose.Promise = global.Promise
-mongoose
-  .connect(
-    DB_URL,
-    { useNewUrlParser: true },
-  )
-  .then(() => {
-    console.log('Connected to Database')
-  })
-  .catch(err => console.error('Failed to connect to Database ', err))
+// mongoose.Promise = global.Promise
+// mongoose
+//   .connect(
+//     DB_URL,
+//     { useNewUrlParser: true },
+//   )
+//   .then(() => {
+//     console.log('Connected to Database')
+//   })
+//   .catch(err => console.error('Failed to connect to Database ', err))
 
 app.set('views', path.resolve('src/views'))
 app.set('view engine', 'ejs')
