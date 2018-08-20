@@ -1,6 +1,6 @@
 import express from 'express'
 // import sgMail from '@sendgrid/mail'
-import User from '../models/user'
+import User from '../models/User'
 import onFailure from './../helpers/on-failure'
 // import { canAccess } from 'middlewares/rbac'
 

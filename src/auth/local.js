@@ -1,7 +1,7 @@
 import JwtStrategy from 'passport-jwt'
 import LocalStrategy from 'passport-local'
 
-import User from '../models/user'
+import User from '../models/User'
 import { JWT_CONFIG } from '../config'
 import { jwtExtractor, simplify } from '../utils'
 
@@ -39,7 +39,7 @@ const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
             error: "Your login details could not be verified. Please try again."
           })
         }
-  
+
         return done(null, simplify(user))
       })
     }
@@ -51,7 +51,7 @@ const jwtOptions = {
   secretOrKey: JWT_CONFIG.APPLICATION_JWT_SIGNING_KEY
 }
 
-const jwtLogin = new Strategy(jwtOptions, (payload, done) => {  
+const jwtLogin = new Strategy(jwtOptions, (payload, done) => {
   User.findOne({email: payload.email} , (err, user) => {
     if (err) { return done(err, false) }
     if (user) {
